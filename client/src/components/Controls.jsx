@@ -51,13 +51,14 @@ export default function Controls(props) {
       const blob = recorderRef.current.getBlob();
       setRecordedBlob(blob);
       setScreenrecording(false);
-      await downloadVideo();
+//       await downloadVideo();
     });
   };
 
   const downloadVideo = async () => {
     if (recordedBlob) {
       await download(recordedBlob, 'recorded-video.webm');
+      setRecordedBlob(null);
     }
   };
 
@@ -201,6 +202,18 @@ export default function Controls(props) {
         </Button>
       </Grid>
       )}
+      
+      {recordedBlob ? 
+      <Grid item>
+      <Button
+        variant="contained"
+        color={"danger"}
+        onClick={downloadVideo}
+      >
+        download
+      </Button>
+    </Grid> : ''
+    }
 
       <Grid item>
         <Button
@@ -212,13 +225,7 @@ export default function Controls(props) {
           <LogoutIcon />
         </Button>
       </Grid>
-      {/* {screenTrack && (
-        <div>
-          <h2>Screen Sharing Preview</h2>
-          <video ref={(ref) => (ref ? screenTrack.play(ref) : null)} />
-        </div>
       
-      )} */}
 
     </Grid>
   );
